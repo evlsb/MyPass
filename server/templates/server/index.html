@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Сервер
+{% endblock %}
+
+{% block body %}
+
+    <div class="card col-md-8 offset-md-2 mt-3">
+      <div class="card-body">
+        <h5 class="card-title">Шаг 1  </h5>
+        <p class="card-text">Создание инфраструктуры открытых ключей OpenVPN - Init PKI</p>
+        <a href="{{ url_for('server.initpki') }}" class="btn btn-primary">Создать Init PKI</a>
+      </div>
+    </div>
+	{{ out  }}
+    <div class="card col-md-8 offset-md-2 mt-2">
+          <div class="card-body">
+            <h5 class="card-title">Шаг 2</h5>
+            <p class="card-text">Создание центра сертификации</p>
+            <form action="{{ url_for('server.createca') }}" method="GET">
+                <div class="col-md-12">
+                    <div class="input-group m-1">
+                        <span class="input-group-text">COUNTRY</span>
+                        <input type="text" class="form-control" placeholder="RU" name="country" value="{{ request.args.get('country', 'RU') }}">
+                    </div>
+                    <div class="input-group m-1">
+                        <span class="input-group-text">PROVINCE</span>
+                        <input type="text" class="form-control" placeholder="Bashkortostan" name="province" value="{{ request.args.get('province', 'Bashkortostan') }}">
+                    </div>
+                    <div class="input-group m-1">
+                        <span class="input-group-text">CITY</span>
+                        <input type="text" class="form-control" placeholder="Ufa" name="city" value="{{ request.args.get('city', 'Ufa') }}">
+                    </div>
+                    <div class="input-group m-1">
+                        <span class="input-group-text">ORG</span>
+                        <input type="text" class="form-control" placeholder="Ozna" name="org" value="{{ request.args.get('org', 'Ozna') }}">
+                    </div>
+                    <div class="input-group m-1">
+                        <span class="input-group-text">EMAIL</span>
+                        <input type="text" class="form-control" placeholder="levashov.en@ozna.ru" name="email" value="{{ request.args.get('email', 'levashov.en@ozna.ru') }}">
+                    </div>
+                    <div class="input-group m-1">
+                        <span class="input-group-text">OU</span>
+                        <input type="text" class="form-control" placeholder="ASUTP" name="ou" value="{{ request.args.get('ou', 'ASUTP') }}">
+                    </div>
+                    <a href="{{ url_for('server.createca') }}">
+                        <input type="submit" class="btn btn-primary mt-3" value="Создать центр сертификации">
+                    </a>
+                </div>
+            </form>
+          </div>
+    </div>
+
+    <div class="card col-md-8 offset-md-2 mt-2">
+      <div class="card-body">
+        <h5 class="card-title">Шаг 3</h5>
+        <p class="card-text">Создание сервера OpenVPN</p>
+        <a href="{{ url_for('server.createserver') }}" class="btn btn-primary">Создать сервер</a>
+      </div>
+    </div>
+
+    <div class="card col-md-8 offset-md-2 mt-2">
+      <div class="card-body">
+        <h5 class="card-title">Шаг 4</h5>
+        <p class="card-text">Создание дополнительного секретного ключа, который будет использоваться совместно со стандартной парой ключей RSA</p>
+        <a href="{{ url_for('server.createta') }}" class="btn btn-primary">Создать ta.key</a>
+      </div>
+    </div>
+
+
+
+
+<!--    <a href="{{ url_for('server.initpki') }}">-->
+<!--        <button type="button" class="btn btn-primary">Init PKI</button>-->
+<!--    </a>-->
+
+<!--    <form action="{{ url_for('server.createca') }}" method="GET">-->
+<!--        <div class="col-md-6">-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">COUNTRY</span>-->
+<!--                <input type="text" class="form-control" placeholder="RU" name="country" value="{{ request.args.get('country', 'RU') }}">-->
+<!--            </div>-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">PROVINCE</span>-->
+<!--                <input type="text" class="form-control" placeholder="Bashkortostan" name="province" value="{{ request.args.get('province', 'Bashkortostan') }}">-->
+<!--            </div>-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">CITY</span>-->
+<!--                <input type="text" class="form-control" placeholder="Ufa" name="city" value="{{ request.args.get('city', 'Ufa') }}">-->
+<!--            </div>-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">ORG</span>-->
+<!--                <input type="text" class="form-control" placeholder="Ozna" name="org" value="{{ request.args.get('org', 'Ozna') }}">-->
+<!--            </div>-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">EMAIL</span>-->
+<!--                <input type="text" class="form-control" placeholder="levashov.en@ozna.ru" name="email" value="{{ request.args.get('email', 'levashov.en@ozna.ru') }}">-->
+<!--            </div>-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">OU</span>-->
+<!--                <input type="text" class="form-control" placeholder="ASUTP" name="ou" value="{{ request.args.get('ou', 'ASUTP') }}">-->
+<!--            </div>-->
+<!--            <a href="{{ url_for('server.createca') }}">-->
+<!--                <input type="submit" class="btn btn-primary" value="Создать центр сертификации">-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </form>-->
+
+<!--    <div class="m-1"></div>-->
+
+<!--    <a href="{{ url_for('server.createserver') }}">-->
+<!--        <input type="submit" class="btn btn-primary" value="Создать сервер">-->
+<!--    </a>-->
+
+<!--    <a href="{{ url_for('server.createta') }}">-->
+<!--        <input type="submit" class="btn btn-primary" value="Создать ta ключ">-->
+<!--    </a>-->
+
+<!--    <div class="m-1"></div>-->
+
+
+<!--    <form action="{{ url_for('server.createclient') }}" method="GET">-->
+
+<!--        <div class="col-md-6">-->
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">Клиент:</span>-->
+<!--                <input type="text" class="form-control" name="name" value="{{ request.args.get('name', 'Введите имя клиента') }}">-->
+<!--            </div>-->
+
+<!--            <div class="input-group m-1">-->
+<!--                <span class="input-group-text">Описание:</span>-->
+<!--                <input type="text" class="form-control" name="descr" value="{{ request.args.get('descr', 'ООО ТомскГазпром') }}">-->
+<!--            </div>-->
+
+<!--            <a href="{{ url_for('server.createclient') }}">-->
+<!--                <input type="submit" class="btn btn-primary" value="Создать клиента">-->
+<!--            </a>-->
+<!--        </div>-->
+
+<!--    </form>-->
+
+
+    
+    {{ er  }}
+     <div>---</div>
+    {{ out  }}
+    <div>---</div>
+    {{ ret  }}
+
+
+
+{% endblock %}
