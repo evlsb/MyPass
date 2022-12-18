@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name 81.163.27.61;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/sb/MyPass/MyPass.sock;
+    }
+}
