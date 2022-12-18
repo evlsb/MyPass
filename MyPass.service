@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve MyPass
+After=network.target
+
+[Service]
+User=sb
+Group=www-data
+WorkingDirectory=/home/sb/MyPass
+Environment="PATH=/home/sb/MyPass/env/bin"
+ExecStart=/home/sb/MyPass/env/bin/gunicorn --workers 3 --bind unix:MyPass.sock -m 007 main:app
+
+[Install]
+WantedBy=multi-user.target
