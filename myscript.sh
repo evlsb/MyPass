@@ -32,6 +32,7 @@ source env/bin/activate
 pip install -r requirements.txt
 deactivate
 printf "levashov" | sudo -S cp MyPass.service /etc/systemd/system/MyPass.service
+printf "levashov" | sudo -S cp -u nginx.conf /etc/nginx/nginx.conf
 printf "levashov" | sudo -S systemctl start MyPass
 printf "levashov" | sudo -S systemctl enable MyPass
 printf "levashov" | sudo -S cp MyPass /etc/nginx/sites-available
