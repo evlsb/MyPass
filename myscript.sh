@@ -30,8 +30,12 @@ cd MyPass
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
-sudo ufw allow 5000
 printf "levashov" | sudo -S cp MyPass.service /etc/systemd/system/MyPass.service
 printf "levashov" | sudo -S systemctl start MyPass
 printf "levashov" | sudo -S systemctl enable MyPass
-#printf "levashov" | sudo -S systemctl status MyPass
+printf "levashov" | sudo -S cp MyPass /etc/nginx/sites-available
+printf "levashov" | sudo -S ln -s /etc/nginx/sites-available/MyPass /etc/nginx/sites-enabled
+printf "levashov" | sudo -S nginx -t
+printf "levashov" | sudo -S systemctl restart nginx
+printf "levashov" | sudo -S ufw allow 'Nginx Full'
+
