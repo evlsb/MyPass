@@ -25,4 +25,5 @@ su sb
 printf "levashov" | sudo -S apt update
 printf "levashov" | sudo -S apt -y install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools python3-venv ufw nginx git
 cd ~
+git clone https://github.com/evlsb/MyPass.git
 
