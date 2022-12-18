@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    ЦС
+{% endblock %}
+
+{% block body %}
+
+    {% for card in arr_list %}
+
+        <!--     показать поле с вводом пароля   -->
+        {% if card["install_sudo"] == 0 and card["remove_sudo"] == 0 %}
+            {% set input_pass = "d-none" %}
+        {% else %}
+            {% set input_pass = "" %}
+        {% endif %}
+
+        <!--     отображать ли сведения о действии   -->
+        {% if card["visible_warning"] == 0 %}
+            {% set alert_show = "d-none" %}
+        {% else %}
+            {% set alert_show = "show" %}
+        {% endif %}
+
+        <!--     Успешно ли действие?   -->
+        {% if card["make_result"] == 0 %}
+            {% set alert_color = "success" %}
+            {% set alert_text = "Успешно!" %}
+        {% else %}
+            {% set alert_color= "danger" %}
+            {% set alert_text = "Ошибка! см. диагностику" %}
+        {% endif %}
+
+        {% if card["stdout"] == "yes\n" %}
+            {% set bg_button = "success" %}
+            {% set availability = "Установлен" %}
+            {% set btn_install = "disabled" %}
+            {% set btn_remove = "" %}
+        {% else %}
+            {% set bg_button = "danger" %}
+            {% set availability = "Не установлен" %}
+            {% set btn_install = "" %}
+            {% set btn_remove = "disabled" %}
+        {% endif %}
+
+
+
+        <div class="card col-md-8 offset-md-2 mt-3">
+              <div class="card-body">
+                  <h5 class="card-title"><span class="badge text-bg-{{ bg_button }} fw-light">{{ availability }}</span></h5>
+                  <p class="card-text fw-light">{{ card["description"] }}</p>
+
+                  <form action="{{ url_for('ca.make') }}" method="POST">
+                      <div class="col-md-12">
+                          <div class="input-group m-1 {{ input_pass }}">
+                                <span class="input-group-text fw-light">Пароль root:</span>
+                                <input type="password" class="form-control" name="password">
+                          </div>
+
+                          <input type="hidden" class="form-control" name="name_program" value='{{ card["name"] }}'>
+                          <input type="submit" class="btn btn-primary mt-3 {{ btn_install }}" name="action" value="Установить">
+                          <input type="submit" class="btn btn-danger mt-3 {{ btn_remove }}" name="action" value="Удалить">
+                      </div>
+                  </form>
+
+                  <div class="alert alert-{{ alert_color }} alert-dismissible fade {{ alert_show }} mt-3" role="alert">
+                      {{ alert_text }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+
+                  <div class="accordion mt-3 {{ alert_show }}" id="accordionPanelsStayOpenExample">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne-{{ card['name'] }}">
+                          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne-{{ card['name'] }}" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            Диагностика (раскрыть/свернуть)
+                          </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne-{{ card['name'] }}" class="accordion-collapse collapse hide" aria-labelledby="panelsStayOpen-headingOne-{{ card['name'] }}">
+                          <div class="accordion-body">
+                              <pre>{{ card["stderr_make"] }}</pre>
+                              <pre>{{ card["stdout_make"] }}</pre>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+
+              </div>
+        </div>
+
+    {% endfor %}
+
+
+
+{% endblock %}

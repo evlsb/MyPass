@@ -3,6 +3,37 @@ from datetime import datetime
 
 from flask_security import UserMixin, RoleMixin
 
+server_clients = db.Table('server_clients',
+                          db.Column('server_id', db.Integer, db.ForeignKey('server.id')),
+                          db.Column('clients_id', db.Integer, db.ForeignKey('clients.id'))
+                          )
+
+
+class Server(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150))
+    name = db.Column(db.String(150))
+    description = db.Column(db.String(300))
+    crt = db.Column(db.Text, nullable=False)
+    key = db.Column(db.Text, nullable=False)
+    ta = db.Column(db.Text, nullable=False)
+    cert_ca = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, title, name, description, crt, key, ta, cert_ca):
+        self.title = title
+        self.name = name
+        self.description = description
+        self.crt = crt
+        self.key = key
+        self.ta = ta
+        self.cert_ca = cert_ca
+
+    clients = db.relationship('Clients', secondary=server_clients, backref=db.backref('server', lazy='dynamic'))
+
+    def __repr__(self):
+        return '<Server %r>' % self.id
+
 
 class Clients(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,9 +62,9 @@ class Clients(db.Model):
 ### Flask Security
 
 roles_users = db.Table('roles_users',
-    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
-)
+                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                       db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+                       )
 
 
 class User(db.Model, UserMixin):
