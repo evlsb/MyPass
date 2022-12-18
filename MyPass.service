@@ -7,7 +7,7 @@ User=sb
 Group=www-data
 WorkingDirectory=/home/sb/MyPass
 Environment="PATH=/home/sb/MyPass/env/bin"
-ExecStart=/home/sb/MyPass/env/bin/gunicorn --workers 3 --bind unix:MyPass.sock -m 777 main:app
+ExecStart=/home/sb/MyPass/env/bin/gunicorn --workers 3 --bind unix:MyPass.sock -m 666 main:app
 
 [Install]
 WantedBy=multi-user.target

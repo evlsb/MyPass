@@ -30,6 +30,7 @@ cd MyPass
 python3 -m venv env
 source env/bin/activate
 pip install -r requirements.txt
+deactivate
 printf "levashov" | sudo -S cp MyPass.service /etc/systemd/system/MyPass.service
 printf "levashov" | sudo -S systemctl start MyPass
 printf "levashov" | sudo -S systemctl enable MyPass
