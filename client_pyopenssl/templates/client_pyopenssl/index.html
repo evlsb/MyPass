@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Список клиентов
+{% endblock %}
+
+{% block body %}
+    {% for client_item in client %}
+        <div class="card m-2">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                  <p class="m-0">UUID: {{ client_item.title }}</p>
+                  <p class="m-0 fs-6 fw-lighter">Дата создания: {{ client_item.date }}</p>
+              </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ client_item.name }}</h5>
+                  <p class="card-text">{{ client_item.description }}</p>
+                  <a href="#" class="btn btn-primary">Подробнее</a>
+                  <a href="{{ url_for('client_pyopenssl.delete', id=client_item.id) }}" class="btn btn-danger">Удалить</a>
+              </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+

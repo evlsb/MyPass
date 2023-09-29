@@ -12,9 +12,11 @@
 	</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='air-datepicker.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='jquery-ui.min.css') }}">
 </head>
 <body>
-
+	{{ current_user.email }}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
 	<a class="navbar-brand" href="#">Navbar</a>
@@ -26,24 +28,29 @@
 		<li class="nav-item">
 		  <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
 		</li>
-          <li class="nav-item">
-		  <a class="nav-link" href="{{ url_for('po.index') }}">Установка ПО</a>
 		</li>
 		  <li class="nav-item">
-		  <a class="nav-link" href="{{ url_for('ca.index') }}">ЦС</a>
+		  <a class="nav-link" href="{{ url_for('ca_pyopenssl.index') }}">список ЦС</a>
+		</li>
+		  <li class="nav-item">
+		  <a class="nav-link" href="{{ url_for('ca_pyopenssl.newca') }}">создать ЦС</a>
+		</li>
 		</li>
 		<li class="nav-item">
-		  <a class="nav-link" href="{{ url_for('server.index') }}">Сервер</a>
+		  <a class="nav-link" href="{{ url_for('server_pyopenssl.index') }}">список серверов</a>
 		</li>
-		  <li class="nav-item">
-			<a class="nav-link" href="{{ url_for('client.index') }}">Клиент</a>
-		  </li>
 		<li class="nav-item">
-		  <a class="nav-link" href="{{ url_for('issued.index') }}">Список клиентов</a>
+		  <a class="nav-link" href="{{ url_for('server_pyopenssl.newserver') }}">создать сервер</a>
 		</li>
 		  <li class="nav-item">
-			<a class="nav-link" href="{{ url_for('issued.index') }}">Конфигурация сервера</a>
-		  </li>
+		  <a class="nav-link" href="{{ url_for('client_pyopenssl.index') }}">список клиентов</a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="{{ url_for('client_pyopenssl.newclient') }}">создать клиента</a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="{{ url_for('certificate_chain.index') }}">Цепочка сертификатов</a>
+		</li>
 		<li class="nav-item">
 		  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
 		</li>
@@ -58,8 +65,18 @@
 	{% endblock %}
 </div>
 
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='jquery-ui.min.js') }}"></script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='air-datepicker.js') }}"></script>
+<!-- ApproveJs - валидация форм -->
+<script src="{{ url_for('static', filename='approve.min.js') }}"></script>
+<!-- Скрипты проекта -->
+<script src="{{ url_for('static', filename='myscript.js') }}"></script>
+
 
 </body>
 </html>

@@ -3,66 +3,66 @@ from datetime import datetime
 
 from flask_security import UserMixin, RoleMixin
 
-server_clients = db.Table('server_clients',
-                          db.Column('server_id', db.Integer, db.ForeignKey('server.id')),
-                          db.Column('clients_id', db.Integer, db.ForeignKey('clients.id'))
-                          )
+
+
+ca_server = db.Table('ca_server',
+                       db.Column('ca_id', db.Integer(), db.ForeignKey('ca.id', ondelete="CASCADE")),
+                       db.Column('server_id', db.Integer(), db.ForeignKey('server.id', ondelete="CASCADE"))
+                       )
+
+server_client = db.Table('server_client',
+                       db.Column('server_id', db.Integer(), db.ForeignKey('server.id', ondelete="CASCADE")),
+                       db.Column('client_id', db.Integer(), db.ForeignKey('client.id', ondelete="CASCADE"))
+                       )
+
+class CA(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(150))
+    title = db.Column(db.String(150))
+    name = db.Column(db.String(150))
+    description = db.Column(db.String(300))
+    cert_ca = db.Column(db.Text, nullable=False)
+    key_ca = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+    server = db.relationship('Server', secondary=ca_server, backref=db.backref('ca', lazy='dynamic'))
 
 
 class Server(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(150))
     title = db.Column(db.String(150))
     name = db.Column(db.String(150))
     description = db.Column(db.String(300))
-    crt = db.Column(db.Text, nullable=False)
-    key = db.Column(db.Text, nullable=False)
-    ta = db.Column(db.Text, nullable=False)
-    cert_ca = db.Column(db.Text, nullable=False)
+    cert_server = db.Column(db.Text, nullable=False)
+    key_server = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __init__(self, title, name, description, crt, key, ta, cert_ca):
-        self.title = title
-        self.name = name
-        self.description = description
-        self.crt = crt
-        self.key = key
-        self.ta = ta
-        self.cert_ca = cert_ca
-
-    clients = db.relationship('Clients', secondary=server_clients, backref=db.backref('server', lazy='dynamic'))
+    client = db.relationship('Client', secondary=server_client, backref=db.backref('server', lazy='dynamic'))
 
     def __repr__(self):
-        return '<Server %r>' % self.id
+        return self.name
 
 
-class Clients(db.Model):
+class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(150))
     title = db.Column(db.String(150))
     name = db.Column(db.String(150))
     description = db.Column(db.String(300))
-    crt = db.Column(db.Text, nullable=False)
-    key = db.Column(db.Text, nullable=False)
-    ta = db.Column(db.Text, nullable=False)
-    cert_ca = db.Column(db.Text, nullable=False)
+    cert_client = db.Column(db.Text, nullable=False)
+    key_client = db.Column(db.Text, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
 
-    def __init__(self, title, name, description, crt, key, ta, cert_ca):
-        self.title = title
-        self.name = name
-        self.description = description
-        self.crt = crt
-        self.key = key
-        self.ta = ta
-        self.cert_ca = cert_ca
-
     def __repr__(self):
-        return '<Client %r>' % self.id
+        return self.name
 
 
-### Flask Security
+
+
+
+
 
 roles_users = db.Table('roles_users',
-                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id', ondelete="CASCADE")),
                        db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
                        )
 
@@ -72,6 +72,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean())
+    confirmed_at = db.Column(db.DateTime)
     roles = db.relationship('Role', secondary=roles_users, backref=db.backref('users', lazy='dynamic'))
 
 
@@ -79,3 +80,9 @@ class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     description = db.Column(db.String(255))
+
+
+
+# ---------------------------------------------------------
+
+

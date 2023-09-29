@@ -1,5 +1,13 @@
 #!/bin/bash
 
+sudo -u postgres psql
+CREATE DATABASE flask_db;
+CREATE USER admin WITH PASSWORD 'admin';
+ALTER ROLE admin SET client_encoding TO 'utf8';
+ALTER ROLE admin SET default_transaction_isolation TO 'read committed';
+ALTER ROLE admin SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE flask_db TO admin;
+\q
 
 #chown -R $iam MyPass/pki/
 #echo "$(whoami)"
@@ -23,7 +31,7 @@ usermod --shell /bin/bash sb
 su sb
 
 printf "levashov" | sudo -S apt update
-printf "levashov" | sudo -S apt -y install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools python3-venv ufw nginx git tmux
+printf "levashov" | sudo -S apt -y install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools python3-venv ufw nginx git tmux postgresql postgresql-contrib
 cd ~
 git clone https://github.com/evlsb/MyPass.git
 cd MyPass

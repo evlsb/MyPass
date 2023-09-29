@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Список серверов
+{% endblock %}
+
+{% block body %}
+
+    {% for server_item in server %}
+        <div class="card m-2">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                  <p class="m-0">UUID: {{ server_item.title }}</p>
+                  <p class="m-0 fs-6 fw-lighter">Дата создания: {{ server_item.date }}</p>
+              </div>
+                <div class="card-body bg-success">
+                      <h5 class="card-title">{{ server_item.name }}</h5>
+                      <p class="card-text">{{ server_item.description }}</p>
+                      <a href="#" class="btn btn-primary">Подробнее</a>
+                      <a href="{{ url_for('server_pyopenssl.delete', id=server_item.id) }}" class="btn btn-danger">Удалить</a>
+                      <button class="btn btn-success server_pyopenssl_runServer" data-action="start" data-id="{{ server_item.id }}">Старт</button>
+                      <button class="btn btn-danger server_pyopenssl_runServer" data-action="stop" data-id="{{ server_item.id }}">Стоп</button>
+              </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

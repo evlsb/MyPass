@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 import subprocess
 from scripts_lib import *
+from flask_security import login_required
 
 po = Blueprint('po', __name__, template_folder='templates')
 
@@ -72,6 +73,7 @@ cards = [easy_rsa, openvpn]
 
 
 @po.route('/')
+@login_required
 def index():
     arr_list = []
 
@@ -101,12 +103,10 @@ def make():
             if name_program == card["name"]:
                 if request.form['action'] == "Удалить":
                     arr_item_make = (bash(command=sudo(command_work=card["remove"],
-                                                       sudo_cmd=card["remove_sudo"],
                                                        password=password)))
 
                 else:
                     arr_item_make = (bash(command=sudo(command_work=card["install"],
-                                                       sudo_cmd=card["install_sudo"],
                                                        password=password)))
 
                 arr_item = (bash(command=sudo(command_work=card["show"])))

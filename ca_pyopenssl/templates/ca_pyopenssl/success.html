@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Создание ЦС
+{% endblock %}
+
+{% block body %}
+
+    <!--     результат выполнения команды создания ЦС   -->
+    {% if success == 1 %}
+        <div class="alert alert-success" role="alert">
+            ЦС успешно создан!
+        </div>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+            Ошибка при создании ЦС!
+        </div>
+    {% endif %}
+
+
+
+{% endblock %}

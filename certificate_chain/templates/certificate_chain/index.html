@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Цепочка сертификатов
+{% endblock %}
+
+{% block body %}
+
+  {% for ca_item in ca %}
+    {{ ca_item }}
+  {% endfor %}
+
+    <table class="table table-bordered">
+      <thead>
+        <tr class="table-dark">
+          <th scope="col">ЦС</th>
+          <th scope="col">Сервер</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2">Mark</td>
+          <td>Otto</td>
+        </tr>
+        <tr>
+          <td>Thornton</td>
+        </tr>
+      </tbody>
+    </table>
+
+{% endblock %}

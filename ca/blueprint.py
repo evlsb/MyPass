@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request
 import subprocess
 from scripts_lib import *
+from flask_security import login_required
 
 ca = Blueprint('ca', __name__, template_folder='templates')
 
@@ -10,6 +11,7 @@ ca = Blueprint('ca', __name__, template_folder='templates')
 # cards = [pki]
 
 @ca.route('/')
+@login_required
 def index():
     arr_list = []
 
@@ -29,7 +31,7 @@ def index():
         arr_list.append(arr_item)
     print(arr_list)
 
-
+    #return arr_list
     return render_template('ca/index.html', arr_list=arr_list)
 
 

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Список клиентов
+{% endblock %}
+
+{% block body %}
+    {% for ca_item in ca %}
+        <div class="card m-2">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                  <p class="m-0">UUID: {{ ca_item.title }}</p>
+                  <p class="m-0 fs-6 fw-lighter">Дата создания: {{ ca_item.date }}</p>
+              </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ ca_item.name }}</h5>
+                  <p class="card-text">{{ ca_item.description }}</p>
+                  <a href="{{ url_for('ca_pyopenssl.show_details', id=ca_item.id) }}" class="btn btn-primary">Подробнее</a>
+                  <a href="{{ url_for('ca_pyopenssl.delete', id=ca_item.id) }}" class="btn btn-danger">Удалить</a>
+              </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+

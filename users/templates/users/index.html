@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Список пользователей
+{% endblock %}
+
+{% block body %}
+
+    <div class="alert alert-success alert-dismissible fade show alert-fixed d-none" role="alert">
+      <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <table class="table table-hover table-bordered mt-3">
+        <thead>
+            <tr class="table-light table-dark">
+                <th scope="col">№</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Активировать пользователя</th>
+                <th scope="col">Удалить пользователя</th>
+            </tr>
+        </thead>
+
+        {% for key, value in d_users1.items() %}
+            <thead>
+                <tr class="table-light">
+                    <th scope="col">#</th>
+                    <th scope="col">{{ key }} ( Группа )</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for k, p in value.items() %}
+                    <tr class="{{ i }}">
+                        <td scope="col">{{ loop.index }}</td>
+                        <td scope="col">{{ k }}</td>
+                        <td scope="col">
+                            <div class="form-check form-switch">
+                              <input class="form-check-input" type="checkbox" id="{{ k }}" {% if p %}checked=""{% endif %}>
+                            </div>
+                        </td>
+                        <td scope="col">
+                            <button type="button" class="btn btn-danger del_button" data-button="{{ k }}">Удалить</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        {% endfor %}
+
+     </table>
+
+
+{% endblock %}

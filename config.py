@@ -7,4 +7,4 @@ class Configuration(object):
 
     ### Flask-security
     SECURITY_PASSWORD_SALT = 'salt'
-    SECURITY_PASSWORD_HASH = 'sha512_crypt'
+    # SECURITY_PASSWORD_HASH = 'sha512_crypt'

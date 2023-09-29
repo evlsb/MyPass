@@ -32,6 +32,7 @@ actions = [
      "remove_sudo": 1,
      "name": "copy_easyrsa",
      "description": "copy_easyrsa",
+    "inputs_cert": "d-none",
      },
     {"show": 'iam="$(whoami)"; var=$(ls -lG | grep easy-rsa); if echo "$var" | grep -q "$iam"; then echo "yes"; else echo "no"; fi',
      "show_sudo": 0,
@@ -41,6 +42,7 @@ actions = [
      "remove_sudo": 1,
      "name": "whoami",
      "description": "Смена владельца папки Easy-Rsa",
+    "inputs_cert": "d-none",
      },
     {"show": "if [ -d easy-rsa/pki ]; then echo 'yes'; else echo 'no'; fi",
      "show_sudo": 0,
@@ -50,6 +52,7 @@ actions = [
      "remove_sudo": 1,
      "name": "Init_PKI",
      "description": "Description PKI",
+    "inputs_cert": "d-none",
      },
     {"show": 'cd easy-rsa; iam="$(whoami)"; var=$(ls -lG | grep pki); if echo "$var" | grep -q "$iam"; then echo "yes"; else echo "no"; fi',
      "show_sudo": 0,
@@ -59,16 +62,23 @@ actions = [
      "remove_sudo": 1,
      "name": "pki",
      "description": "Смена владельца папки PKI",
+    "inputs_cert": "d-none",
      },
     {"show": "if [ -f easy-rsa/pki/ca.crt ]; then echo 'yes'; else echo 'no'; fi",
      "show_sudo": 0,
-     "install": "cd easy-rsa; printf 'PASSWORD\ny\ny\n\ny\ny\n' | sudo -S ./easyrsa build-ca nopass",
+     "install": 'country="RU"; province="Bashkortostan"; city="Ufa"; org="Ozna"; email="levashov.en@ozna.ru"; ou="ASUTP"; cd easy-rsa; > vars; printf "set_var EASYRSA_REQ_COUNTRY    	\""$country"\"\nset_var EASYRSA_REQ_PROVINCE   	\""$province"\"\nset_var EASYRSA_REQ_CITY    	\""$city"\"\nset_var EASYRSA_REQ_ORG    	\""$org"\"\nset_var EASYRSA_REQ_EMAIL    	\""$email"\"\nset_var EASYRSA_REQ_OU    	\""$ou"\"\nset_var EASYRSA_ALGO           	\"ec\"\nset_var EASYRSA_DIGEST          \"sha512\"\n" >> vars; cd easy-rsa; printf "PASSWORD\ny\ny\n\ny\ny\n" | sudo -S ./easyrsa build-ca nopass',
      "install_sudo": 1,
-     "remove": "rm -R ~/MyPass/pki",
+     "remove": "echo 'PASSWORD' | sudo -S rm -R easy-rsa",
      "remove_sudo": 1,
      "name": "CA",
      "description": "CA",
+    "inputs_cert": "",
      }
+]
+
+
+actions_server = [
+
 ]
 
 

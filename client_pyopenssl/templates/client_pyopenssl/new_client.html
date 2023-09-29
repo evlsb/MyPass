@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Создание клиента
+{% endblock %}
+
+{% block body %}
+
+    {% for msg in get_flashed_messages() %}
+        <div class="flash">{{ msg }}</div>
+    {% endfor %}
+
+    <div class="container mt-5">
+        <div class="card text-center">
+          <div class="card-header">
+            Featured
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+            <div class="col-md-6 offset-md-3">
+
+                <div class="input-group m-1">
+                    <span class="input-group-text">Клиент:</span>
+                    <input type="text" class="form-control" name="name" value="my_Client">
+                </div>
+
+                <div class="alert-name alert alert-danger d-none m-1" role="alert">
+                      Имя должно содержать от 5 до 20 символов, а также не совпадать с другими из БД!
+                </div>
+
+                <div class="input-group m-1">
+                    <span class="input-group-text">Описание:</span>
+                    <input type="text" class="form-control" name="descr" value="my_Description">
+                </div>
+
+                <div class="alert-descr alert alert-danger d-none m-1" role="alert">
+                      Описание должно содержать минимум 5 символов!
+                </div>
+
+                <div class="input-group m-1">
+                    <span class="input-group-text">Срок:</span>
+                    <input type="text" class="form-control" id="airdatepicker" name="validity" value="{{ request.args.get('validity', date_time_end) }}">
+                </div>
+
+                <div class="input-group m-1">
+                    <span class="input-group-text">Сервер:</span>
+                    <select class="form-select" aria-label="Default select example" name="select_server">
+                        {% for server_item in server %}
+                        <option value="{{ server_item.name }}">{{ server_item.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="alert-select alert alert-danger d-none m-1" role="alert">
+                      Не выбран объект из списка!
+                </div>
+
+                <button type="button" id="create_client" class="btn btn-primary">Создать Клиента</button>
+
+                <div class="success-create alert m-1 d-none" role="alert">
+                      ---!
+                </div>
+
+
+            </div>
+
+          </div>
+          <div class="card-footer text-muted">
+            2 days ago
+          </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
